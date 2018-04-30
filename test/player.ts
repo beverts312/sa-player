@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as child_process from 'child_process';
 
-import { Player } from '../src';
+import { Player, PlayerOptions, DeviceType } from '../src';
 import { MockProcess } from './helpers/mock-process';
 
 describe('Player', () => {
@@ -50,6 +50,201 @@ describe('Player', () => {
                 done();
             }).catch(fail);
             mockProcess.close();
+        });
+
+        describe('options', () => {
+            let opts: PlayerOptions;
+            let mockProcess: MockProcess;
+            beforeEach(() => {
+                mockProcess = new MockProcess();
+                existSpy.mockImplementation((file, callback) => callback(true));
+                spawnSpy.mockImplementation(() => mockProcess);
+                opts = {};
+            });
+
+            describe('gain', () => {
+                it('takes class value', (done) => {
+                    opts.gain = 100;
+                    sut = new Player(opts);
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test').then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--gain 100'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+
+                it('takes play value', (done) => {
+                    opts.gain = 100;
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test', opts).then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--gain 100'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+            });
+
+            describe('skip', () => {
+                it('takes class value', (done) => {
+                    opts.skip = 100;
+                    sut = new Player(opts);
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test').then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--skip 100'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+
+                it('takes play value', (done) => {
+                    opts.skip = 100;
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test', opts).then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--skip 100'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+            });
+
+            describe('frames', () => {
+                it('takes class value', (done) => {
+                    opts.frames = 100;
+                    sut = new Player(opts);
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test').then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--frames 100'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+
+                it('takes play value', (done) => {
+                    opts.frames = 100;
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test', opts).then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--frames 100'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+            });
+
+            describe('outputDeviceType', () => {
+                it('takes class value', (done) => {
+                    opts.outputDeviceType = DeviceType.ALSA;
+                    sut = new Player(opts);
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test').then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '-o alsa(09)'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+
+                it('takes play value', (done) => {
+                    opts.outputDeviceType = DeviceType.ALSA;
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test', opts).then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '-o alsa(09)'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+            });
+
+            describe('audioDevice', () => {
+                it('takes class value', (done) => {
+                    opts.audioDevice = 'device';
+                    sut = new Player(opts);
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test').then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--audiodevice device'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+
+                it('takes play value', (done) => {
+                    opts.audioDevice = 'device';
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test', opts).then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--audiodevice device'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+            });
+
+            describe('au', () => {
+                it('takes class value', (done) => {
+                    opts.au = 'farts';
+                    sut = new Player(opts);
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test').then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--au farts'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+
+                it('takes play value', (done) => {
+                    opts.au = 'farts';
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test', opts).then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--au farts'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+            });
+
+            describe('cdr', () => {
+                it('takes class value', (done) => {
+                    opts.cdr = 'farts';
+                    sut = new Player(opts);
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test').then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--cdr farts'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+
+                it('takes play value', (done) => {
+                    opts.cdr = 'farts';
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test', opts).then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--cdr farts'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+            });
+
+            describe('wave', () => {
+                it('takes class value', (done) => {
+                    opts.wave = 'farts';
+                    sut = new Player(opts);
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test').then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--wav farts'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+
+                it('takes play value', (done) => {
+                    opts.wave = 'farts';
+                    existSpy.mockImplementation((file, callback) => callback(true));
+                    sut.play('test', opts).then(() => {
+                        expect(spawnSpy).toBeCalledWith('mpg123', ['test', '--wav farts'], {});
+                        done();
+                    }).catch(fail);
+                    mockProcess.close();
+                });
+            });
         });
     });
 });
