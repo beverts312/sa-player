@@ -35,3 +35,7 @@ jobs:
       # store test reports
       - store_test_results:
           path: coverage
+
+      - deploy:
+          name: Release
+          command: npm run release
