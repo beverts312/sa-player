@@ -21,11 +21,12 @@ describe('Player', () => {
         beforeEach(() => {
             existSpy = jest.spyOn(fs, 'exists');
             spawnSpy = jest.spyOn(child_process, 'spawn');
+            spawnSpy.mockImplementation(() => undefined);
         });
 
         it('should throw error if file does not exist', (done) => {
             existSpy.mockImplementation((file, callback) => callback(false));
-            sut.play('test').catch(err => {
+            return sut.play('test').catch(err => {
                 expect(existSpy.mock.calls[0][0]).toBe('test');
                 expect(err).toBe('The file test does not exist');
                 done();
@@ -34,8 +35,7 @@ describe('Player', () => {
 
         it('should throw error if process cant spawn', (done) => {
             existSpy.mockImplementation((file, callback) => callback(true));
-            spawnSpy.mockImplementation(() => undefined);
-            sut.play('test').catch(err => {
+            return sut.play('test').catch(err => {
                 expect(spawnSpy).toHaveBeenCalledWith('mpg123', ['test'], {});
                 expect(err).toBe('Could not spawn process');
                 done();
@@ -48,7 +48,7 @@ describe('Player', () => {
             spawnSpy.mockImplementation(() => mockProcess);
             sut.play('test').then(() => {
                 done();
-            });
+            }).catch(fail);
             mockProcess.close();
         });
     });
