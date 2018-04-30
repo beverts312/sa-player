@@ -1,0 +1,37 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: node:8@sha256:26e4c77f9f797c3993780943239fa79419f011dd93ae4e0097089e2145aeaa24
+
+    working_directory: ~/sa-player
+
+    steps:
+      - checkout:
+          post: git pull --ff-only origin "refs/pull/${CIRCLE_PULL_REQUEST//*pull\//}/merge"
+
+      - restore_cache:
+          keys:
+            - sa-player-node8-{{ checksum "package.json" }}
+            - sa-player-node8-
+
+      - run: npm install --quiet
+
+      - save_cache:
+          key: sa-player-node8-{{ checksum "package.json" }}
+          paths:
+            - ~/sa-player/node_modules
+
+      - run: npm run lint
+
+      - run: npm run test:ci
+
+      - run:
+          name: Push Code Coverage
+          command: bash <(curl -s https://codecov.io/bash) || true
+          environment:
+            CODECOV_TOKEN: a7166708-63f3-429e-a946-8fc7002f08cb
+
+      # store test reports
+      - store_test_results:
+          path: coverage
