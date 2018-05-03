@@ -7,9 +7,11 @@
   "scripts": {
     "build": "tsc",
     "commit": "commit",
+    "doc": "typedoc --out documentation --readme none src",
+    "doc:serve": "npm run doc && http-server ./documentation -p 3001",
     "format": "eclint fix ./**/*",
     "lint": "npm run tslint",
-    "release": "npm run build && semantic-release --debug",    
+    "release": "npm run build && semantic-release --debug",
     "start": "node src/server.js",
     "test": "jest --coverage",
     "test:ci": "jest --coverage --maxWorkers=2",
@@ -35,11 +37,13 @@
     "@types/node": "8.10.11",
     "eclint": "2.7.0",
     "fixpack": "2.3.1",
+    "http-server": "^0.11.1",
     "husky": "0.14.3",
     "jest": "22.4.3",
     "semantic-release": "15.2.0",
     "ts-jest": "22.4.4",
     "tslint": "5.9.1",
+    "typedoc": "^0.11.1",
     "typescript": "2.8.3"
   }
 }
