@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/beverts312/sa-player#readme",
   "devDependencies": {
-    "@commitlint/config-angular": "6.1.3",
+    "@commitlint/config-angular": "7.0.0",
     "@commitlint/prompt-cli": "6.1.3",
     "@swellaby/tslint-config": "1.0.4",
     "@types/jest": "22.2.3",
